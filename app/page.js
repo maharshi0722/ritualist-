@@ -22,56 +22,77 @@ export default function RitualistMap() {
 
     ctx.scale(dpr, dpr);
 
-    // -----------------------------------
-    // DEVICE
-    // -----------------------------------
+    // =========================
+    // RESPONSIVE
+    // =========================
 
-    const mobile = width < 768;
+    const isMobile = width < 768;
 
-    // move map slightly right
-    const centerX = mobile
+    // =========================
+    // CENTER POSITION
+    // =========================
+
+    const centerX = isMobile
       ? width / 2
-      : width / 2 + 120;
+      : width * 0.60;
 
-    const centerY = height / 2 + (mobile ? 50 : 10);
+    const centerY = isMobile
+      ? height * 0.57
+      : height * 0.52;
 
-    // -----------------------------------
-    // RESPONSIVE RINGS
-    // -----------------------------------
+    // =========================
+    // RINGS CONFIG
+    // =========================
 
-    const rings = mobile
+    const rings = isMobile
       ? [
-          { count: 10, radius: 78, size: 42 },
-          { count: 14, radius: 128, size: 38 },
-          { count: 18, radius: 174, size: 34 },
-          { count: 22, radius: 220, size: 30 },
+          { count: 14, radius: 85, size: 42 },
+          { count: 18, radius: 145, size: 38 },
+          { count: 24, radius: 200, size: 34 },
+          { count: 28, radius: 255, size: 30 },
         ]
       : [
-          { count: 14, radius: 130, size: 72 },
-          { count: 20, radius: 220, size: 64 },
-          { count: 28, radius: 310, size: 56 },
-          { count: 34, radius: 395, size: 48 },
+          { count: 20, radius: 120, size: 58 },
+          { count: 26, radius: 195, size: 54 },
+          { count: 34, radius: 270, size: 50 },
+          { count: 42, radius: 345, size: 46 },
         ];
 
-    // -----------------------------------
-    // LOGO
-    // -----------------------------------
+    // =========================
+    // IMAGES
+    // =========================
 
     const logo = new Image();
     logo.src = "/images/logo.png";
 
-    // -----------------------------------
-    // FIRST IMAGE
-    // -----------------------------------
-
-    const firstImage = new Image();
-    firstImage.src = "/images/BUNSDEV.JPG";
-
-    // -----------------------------------
-    // LOAD 1.png -> 102.png
-    // -----------------------------------
-
     const avatars = [];
+
+    // YOUR JPG FILES
+
+    const jpgFiles = [
+      "BUNSDEV.JPG",
+      "CLARIE.JPG",
+      "DUNKEN.JPG",
+      "ELIF.JPG",
+      "ERIC.JPG",
+      "FLASH.JPG",
+      "HINATA.JPG",
+      "JEZ.JPG",
+      "JOSH.JPG",
+      "KASH.JPG",
+      "MAJORPROJECT.JPG",
+      "MEISON.JPG",
+      "STEFAN.JPG",
+      "WHITESOCK.JPG",
+    ];
+
+    jpgFiles.forEach((file) => {
+      const img = new Image();
+      img.src = `/images/${file}`;
+      avatars.push(img);
+    });
+
+    // 1.png → 102.png
 
     for (let i = 1; i <= 102; i++) {
       const img = new Image();
@@ -81,11 +102,11 @@ export default function RitualistMap() {
       avatars.push(img);
     }
 
-    // -----------------------------------
+    // =========================
     // BACKGROUND
-    // -----------------------------------
+    // =========================
 
-    function background() {
+    function drawBackground() {
       const gradient = ctx.createLinearGradient(
         0,
         0,
@@ -93,9 +114,9 @@ export default function RitualistMap() {
         height
       );
 
-      gradient.addColorStop(0, "#9468f4");
-      gradient.addColorStop(0.45, "#5d3ba9");
-      gradient.addColorStop(1, "#130a22");
+      gradient.addColorStop(0, "#9b72ff");
+      gradient.addColorStop(0.4, "#5d33b5");
+      gradient.addColorStop(1, "#12061f");
 
       ctx.fillStyle = gradient;
       ctx.fillRect(0, 0, width, height);
@@ -105,10 +126,10 @@ export default function RitualistMap() {
       const glow = ctx.createRadialGradient(
         centerX,
         centerY,
-        50,
+        80,
         centerX,
         centerY,
-        mobile ? 260 : 520
+        isMobile ? 280 : 500
       );
 
       glow.addColorStop(
@@ -121,14 +142,14 @@ export default function RitualistMap() {
         "rgba(255,255,255,0)"
       );
 
-      ctx.beginPath();
-
       ctx.fillStyle = glow;
+
+      ctx.beginPath();
 
       ctx.arc(
         centerX,
         centerY,
-        mobile ? 260 : 520,
+        isMobile ? 280 : 500,
         0,
         Math.PI * 2
       );
@@ -137,16 +158,16 @@ export default function RitualistMap() {
 
       // stars
 
-      for (let i = 0; i < 180; i++) {
-        const x = (i * 91) % width;
-        const y = (i * 157) % height;
+      for (let i = 0; i < 240; i++) {
+        const x = (i * 137) % width;
+        const y = (i * 89) % height;
 
         ctx.beginPath();
 
         ctx.fillStyle =
           i % 2 === 0
-            ? "rgba(255,255,255,0.7)"
-            : "rgba(200,220,255,0.4)";
+            ? "rgba(255,255,255,0.85)"
+            : "rgba(255,255,255,0.25)";
 
         ctx.arc(
           x,
@@ -159,58 +180,36 @@ export default function RitualistMap() {
         ctx.fill();
       }
 
-      // sparkles
-
-      for (let i = 0; i < 24; i++) {
-        const x = (i * 173) % width;
-        const y = (i * 133) % height;
-
-        ctx.strokeStyle =
-          "rgba(255,255,255,0.14)";
-
-        ctx.lineWidth = 1;
-
-        ctx.beginPath();
-
-        ctx.moveTo(x - 4, y);
-        ctx.lineTo(x + 4, y);
-
-        ctx.moveTo(x, y - 4);
-        ctx.lineTo(x, y + 4);
-
-        ctx.stroke();
-      }
-
       // clouds
 
-      ctx.fillStyle = "#f7d9e7";
+      ctx.fillStyle = "#f5d8e5";
 
-      const scale = mobile ? 0.7 : 1;
+      const cloudScale = isMobile ? 0.7 : 1;
 
       // left
 
       ctx.beginPath();
 
       ctx.arc(
-        40,
+        35,
+        100,
+        58 * cloudScale,
+        0,
+        Math.PI * 2
+      );
+
+      ctx.arc(
         90,
-        60 * scale,
+        110,
+        42 * cloudScale,
         0,
         Math.PI * 2
       );
 
       ctx.arc(
-        95,
-        105,
-        45 * scale,
-        0,
-        Math.PI * 2
-      );
-
-      ctx.arc(
-        -10,
-        118,
-        45 * scale,
+        -15,
+        120,
+        42 * cloudScale,
         0,
         Math.PI * 2
       );
@@ -222,25 +221,25 @@ export default function RitualistMap() {
       ctx.beginPath();
 
       ctx.arc(
-        width - 40,
-        90,
-        60 * scale,
+        width - 35,
+        100,
+        58 * cloudScale,
         0,
         Math.PI * 2
       );
 
       ctx.arc(
-        width - 95,
-        105,
-        45 * scale,
+        width - 90,
+        110,
+        42 * cloudScale,
         0,
         Math.PI * 2
       );
 
       ctx.arc(
-        width + 10,
-        118,
-        45 * scale,
+        width + 15,
+        120,
+        42 * cloudScale,
         0,
         Math.PI * 2
       );
@@ -248,14 +247,14 @@ export default function RitualistMap() {
       ctx.fill();
     }
 
-    // -----------------------------------
-    // DRAW AVATAR
-    // -----------------------------------
+    // =========================
+    // DRAW PFP
+    // =========================
 
-    function avatar(x, y, size, img) {
+    function drawAvatar(x, y, size, image) {
       if (
-        !img.complete ||
-        img.naturalWidth === 0
+        !image.complete ||
+        image.naturalWidth === 0
       )
         return;
 
@@ -263,14 +262,20 @@ export default function RitualistMap() {
 
       ctx.beginPath();
 
-      ctx.arc(x, y, size / 2, 0, Math.PI * 2);
+      ctx.arc(
+        x,
+        y,
+        size / 2,
+        0,
+        Math.PI * 2
+      );
 
       ctx.closePath();
 
       ctx.clip();
 
       ctx.drawImage(
-        img,
+        image,
         x - size / 2,
         y - size / 2,
         size,
@@ -279,68 +284,54 @@ export default function RitualistMap() {
 
       ctx.restore();
 
-      // border
+      // white border
 
       ctx.beginPath();
 
       ctx.strokeStyle = "white";
 
-      ctx.lineWidth = mobile ? 2 : 3;
+      ctx.lineWidth = isMobile ? 2 : 3;
 
-      ctx.arc(x, y, size / 2, 0, Math.PI * 2);
+      ctx.arc(
+        x,
+        y,
+        size / 2,
+        0,
+        Math.PI * 2
+      );
 
       ctx.stroke();
     }
 
-    // -----------------------------------
-    // MAIN
-    // -----------------------------------
+    // =========================
+    // RENDER
+    // =========================
 
     function render() {
       ctx.clearRect(0, 0, width, height);
 
-      background();
+      drawBackground();
 
-      // smoother animation
+      const time = performance.now() * 0.00009;
 
-      const time = performance.now() * 0.00008;
+      // =========================
+      // AVATAR RINGS
+      // =========================
 
-      // -----------------------------------
-      // FIRST IMAGE
-      // -----------------------------------
-
-      const firstSize = mobile ? 58 : 92;
-
-      const firstY = mobile
-        ? centerY - 260
-        : centerY - 330;
-
-      avatar(
-        centerX,
-        firstY,
-        firstSize,
-        firstImage
-      );
-
-      // -----------------------------------
-      // ROTATING RINGS
-      // -----------------------------------
-
-      let current = 0;
+      let avatarIndex = 0;
 
       rings.forEach((ring, ringIndex) => {
         for (let i = 0; i < ring.count; i++) {
-          if (current >= avatars.length) return;
+          if (avatarIndex >= avatars.length)
+            return;
 
           const angle =
             (Math.PI * 2 * i) / ring.count;
 
-          // smoother slow rotation
-
           const rotation =
             time *
             (ringIndex % 2 === 0 ? 1 : -1) *
-            (0.25 + ringIndex * 0.08);
+            (0.14 + ringIndex * 0.03);
 
           const x =
             centerX +
@@ -352,88 +343,97 @@ export default function RitualistMap() {
             Math.sin(angle + rotation) *
               ring.radius;
 
-          avatar(
+          drawAvatar(
             x,
             y,
             ring.size,
-            avatars[current]
+            avatars[avatarIndex]
           );
 
-          current++;
+          avatarIndex++;
         }
       });
 
-      // -----------------------------------
-      // CENTER ORB
-      // -----------------------------------
+      // =========================
+      // CENTER LOGO CIRCLE
+      // =========================
 
-      const orb = mobile ? 58 : 88;
+      // =========================
+// CENTER LOGO CIRCLE
+// =========================
 
-      ctx.shadowColor = "rgba(255,255,255,0.25)";
-      ctx.shadowBlur = 25;
+const orbRadius = isMobile ? 62 : 78;
 
-      ctx.beginPath();
+// glow
 
-      ctx.fillStyle = "#d8ffd8";
+ctx.shadowColor =
+  "rgba(214,255,214,0.55)";
 
-      ctx.arc(
-        centerX,
-        centerY,
-        orb,
-        0,
-        Math.PI * 2
-      );
+ctx.shadowBlur = 35;
 
-      ctx.fill();
+ctx.beginPath();
 
-      ctx.beginPath();
+ctx.fillStyle = "#d8ffd8";
 
-      ctx.strokeStyle = "white";
+ctx.arc(
+  centerX,
+  centerY,
+  orbRadius,
+  0,
+  Math.PI * 2
+);
 
-      ctx.lineWidth = 4;
+ctx.fill();
 
-      ctx.arc(
-        centerX,
-        centerY,
-        orb,
-        0,
-        Math.PI * 2
-      );
+// border
 
-      ctx.stroke();
+ctx.beginPath();
 
-      // -----------------------------------
-      // LOGO ROTATION
-      // -----------------------------------
+ctx.strokeStyle =
+  "rgba(255,255,255,0.95)";
 
-      if (
-        logo.complete &&
-        logo.naturalWidth !== 0
-      ) {
-        const logoSize = mobile ? 70 : 120;
+ctx.lineWidth = 4;
 
-        ctx.save();
+ctx.arc(
+  centerX,
+  centerY,
+  orbRadius,
+  0,
+  Math.PI * 2
+);
 
-        ctx.translate(centerX, centerY);
+ctx.stroke();
 
-        ctx.rotate(time * 0.5);
+// =========================
+// BIGGER FULL LOGO
+// =========================
 
-        ctx.drawImage(
-          logo,
-          -logoSize / 2,
-          -logoSize / 2,
-          logoSize,
-          logoSize
-        );
+if (
+  logo.complete &&
+  logo.naturalWidth > 0
+) {
+  ctx.shadowBlur = 0;
 
-        ctx.restore();
-      }
+  // BIG LOGO ONLY
 
-      // -----------------------------------
-      // SIDE TITLE
-      // -----------------------------------
+  const logoSize = isMobile
+    ? 58
+    : 78;
 
-      if (!mobile) {
+  ctx.drawImage(
+    logo,
+    centerX - logoSize / 2,
+    centerY - logoSize / 2,
+    logoSize,
+    logoSize
+  );
+}
+
+      // =========================
+      // TEXT
+      // =========================
+
+      if (!isMobile) {
         ctx.textAlign = "left";
 
         ctx.fillStyle = "white";
@@ -442,48 +442,48 @@ export default function RitualistMap() {
 
         ctx.fillText(
           "Ritualist",
-          90,
-          height / 2 - 40
+          65,
+          height / 2 - 10
         );
 
         ctx.fillText(
           "Map",
-          90,
-          height / 2 + 40
+          65,
+          height / 2 + 70
         );
 
-        ctx.font = "500 18px Inter";
+        ctx.font = "500 17px Inter";
 
         ctx.fillStyle =
-          "rgba(255,255,255,0.75)";
+          "rgba(255,255,255,0.82)";
 
         ctx.fillText(
           "ritual ecosystem community",
-          95,
-          height / 2 + 95
+          68,
+          height / 2 + 115
         );
       } else {
         ctx.textAlign = "center";
 
         ctx.fillStyle = "white";
 
-        ctx.font = "700 28px Georgia";
+        ctx.font = "700 34px Georgia";
 
         ctx.fillText(
           "Ritualist Map",
           width / 2,
-          60
+          58
         );
 
-        ctx.font = "500 12px Inter";
+        ctx.font = "500 13px Inter";
 
         ctx.fillStyle =
-          "rgba(255,255,255,0.75)";
+          "rgba(255,255,255,0.82)";
 
         ctx.fillText(
           "ritual ecosystem community",
           width / 2,
-          82
+          84
         );
       }
 
@@ -492,20 +492,23 @@ export default function RitualistMap() {
 
     render();
 
-    // -----------------------------------
+    // =========================
     // RESIZE
-    // -----------------------------------
+    // =========================
 
-    function resize() {
+    function handleResize() {
       location.reload();
     }
 
-    window.addEventListener("resize", resize);
+    window.addEventListener(
+      "resize",
+      handleResize
+    );
 
     return () => {
       window.removeEventListener(
         "resize",
-        resize
+        handleResize
       );
     };
   }, []);
@@ -524,7 +527,7 @@ export default function RitualistMap() {
           margin: 0;
           padding: 0;
           overflow: hidden;
-          background: #130a22;
+          background: #12061f;
           font-family: Inter, sans-serif;
         }
 
