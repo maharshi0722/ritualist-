@@ -44,24 +44,19 @@ export default function RitualistMap() {
     // RINGS CONFIG
     // =========================
 
-    // =========================
-// RINGS CONFIG
-// =========================
-
-const rings = isMobile
-  ? [
-      { count: 16, radius: 82, size: 42 },
-      { count: 22, radius: 145, size: 38 },
-      { count: 30, radius: 210, size: 34 },
-      { count: 38, radius: 275, size: 30 },
-      { count: 46, radius: 340, size: 26 },
-    ]
-  : [
-      { count: 20, radius: 120, size: 58 },
-      { count: 26, radius: 195, size: 54 },
-      { count: 34, radius: 270, size: 50 },
-      { count: 42, radius: 345, size: 46 },
-    ];
+    const rings = isMobile
+      ? [
+          { count: 14, radius: 85, size: 42 },
+          { count: 18, radius: 145, size: 38 },
+          { count: 24, radius: 200, size: 34 },
+          { count: 28, radius: 255, size: 30 },
+        ]
+      : [
+          { count: 20, radius: 120, size: 58 },
+          { count: 26, radius: 195, size: 54 },
+          { count: 34, radius: 270, size: 50 },
+          { count: 42, radius: 345, size: 46 },
+        ];
 
     // =========================
     // IMAGES
