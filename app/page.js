@@ -94,7 +94,7 @@ export default function RitualistMap() {
 
     // 1.png → 102.png
 
-    for (let i = 1; i <= 102; i++) {
+    for (let i = 1; i <= 104; i++) {
       const img = new Image();
 
       img.src = `/${i}.png`;
