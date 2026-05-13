@@ -329,9 +329,9 @@ export default function RitualistMap() {
             (Math.PI * 2 * i) / ring.count;
 
           const rotation =
-            time *
-            (ringIndex % 2 === 0 ? 1 : -1) *
-            (0.14 + ringIndex * 0.03);
+  time *
+  (ringIndex % 2 === 0 ? 1 : -1) *
+  (0.32 + ringIndex * 0.08);
 
           const x =
             centerX +
